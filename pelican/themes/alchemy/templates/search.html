@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block title %}
+Recherche {{ super() }}
+{% endblock %}
+
+{% block page_header %}
+Recherche
+{% endblock %}
+
+{% block head %}
+{{super()}}
+<link rel="stylesheet" href="{{ SITEURL }}/theme/css/search.css" />
+<style>
+
+</style>
+{% endblock %}
+
+{% block javascript_libs %}
+{{super()}}
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script src="https://unpkg.com/vue@2.5.9/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-instantsearch@1.3.2/dist/vue-instantsearch.js"></script>
+
+<script type="text/x-template" id="main">
+    <ais-index
+        :app-id="ALGOLIA_APP_ID"
+        :api-key="ALGOLIA_SEARCH_API_KEY"
+        :index-name="ALGOLIA_INDEX_NAME"
+    >
+        <div class="row">
+            <div class="col-md-2 col-sm-3">
+                <h1 class="head-title">
+                    Filtres
+                </h1>
+            </div>
+            <div class="col-md-10 col-sm-9">
+
+                <ais-search-box
+                    :autofocus="true"
+                    :class-names="{'ais-input': 'form-inline'}"
+                >
+                    <div class="input-group input-group-lg">
+                        <ais-input
+                            placeholder="Recherches..."
+                            :class-names="{'ais-input': 'form-control form-control-lg'}"
+                        ></ais-input>
+
+                        <span class="input-group-btn">
+                            <ais-clear :class-names="{'ais-clear': 'btn btn-default'}">
+                                <span class="fa fa-remove" aria-hidden="true"></span>
+                            </ais-clear>
+                            <button class="btn btn-default" type="submit">
+                                <span class="fa fa-search" aria-hidden="true"></span>
+                            </button>
+                        </span>
+                    </div>
+                </ais-search-box>
+
+                <div class="search-controls form-inline">
+                    <ais-results-per-page-selector
+                        :options="[12, 24, 48]"
+                        :class-names="{'ais-results-per-page-selector': 'form-control form-control-lg' }"
+                    ></ais-results-per-page-selector>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 col-sm-3">
+
+                <!--
+                <ais-clear :class-names="{'ais-clear': 'btn btn-default'}">
+                    <i class="fa fa-close"></i>
+                </ais-clear>
+                -->
+
+
+
+                <!--
+                <form class="form-inline">
+                    <ais-refinement-list
+                        attribute-name="tags"
+                    ></ais-refinement-list>
+                </form>
+
+                <form class="form-inline">
+                    <ais-sort-by-selector
+                        :class-names="{'ais-sort-by-selector': 'form-control'}"
+                        :indices="[
+                            {
+                                name: 'blog',
+                                label: 'Default'
+                            },
+                            {
+                                name: 'blog_title_asc',
+                                label: 'Titre ascendant'
+                            },
+                            {
+                                name: 'blog_created_asc',
+                                label: 'Date de Création'
+                            }
+                            ]"
+                    />
+                </form>
+                -->
+
+                <ais-tree-menu
+                    :attributes="['tags']"
+                    :sort-by="['count:desc']"
+                    :class-names="{
+                        'ais-tree-menu__list': 'list-unstyled',
+                        'ais-tree-menu__count': 'badge badge-secondary'
+                    }">
+                    <h4 slot="header">Par Tags</h4>
+                </ais-tree-menu>
+            </div>
+
+            <div class="col-md-10 col-sm-9">
+
+                {% raw %}
+                <ais-results>
+                    <ais-stats></ais-stats>
+
+                    <template slot-scope="{ result }">
+                        <div class="search-result">
+                            <div class="result__info">
+                                <h2 class="result__title">
+                                    <a :href="result.url">
+                                        <ais-highlight :result="result" attribute-name="title"></ais-highlight>
+                                    </a>
+                                </h2>
+                                <div class="result__summary">
+                                    {{result.summary}}
+                                    <!--
+                                    <ais-highlight :result="result" attribute-name="summary"></ais-highlight>
+                                    -->
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </ais-results>
+                {% endraw %}
+
+            </div>
+        </div>
+
+    </ais-index>
+</script>
+
+<script type="text/babel">
+new Vue({
+  template: '#main',
+  data () {
+    return {
+      ALGOLIA_APP_ID: '{{ALGOLIA_APP_ID}}',
+      ALGOLIA_SEARCH_API_KEY: '{{ALGOLIA_SEARCH_API_KEY}}',
+      ALGOLIA_INDEX_NAME: '{{ALGOLIA_INDEX_NAME}}'
+    }
+  },
+  el: '#app'
+})
+</script>
+
+{% endblock %}
+
+{% block content %}
+<div id="app" class="container-fluid xxx">
+</div>
+{% endblock %}

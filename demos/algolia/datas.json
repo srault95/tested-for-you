@@ -1,0 +1,16 @@
+[
+    {
+      "slug": "algolia-intro",
+      "title": "Algolia est un excellent moteur d'indexation",
+      "tags": ["search", "saas"],
+      "url": "http://example.net/articles/algolia.html",
+      "content": "Lorem Ipsum..."
+    },
+    {
+      "slug": "algolia-tuto-1",
+      "title": "Mise en oeuvre d'Algolia Search dans votre site",
+      "tags": ["search", "python", "algolia", "tutorial"],
+      "url": "http://example.net/articles/algolia-mise-en-oeuvre.html",
+      "content": "Lorem Ipsum..."
+    }
+  ]

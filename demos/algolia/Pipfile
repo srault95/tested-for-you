@@ -1,0 +1,18 @@
+[[source]]
+
+name = "pypi"
+verify_ssl = true
+url = "https://pypi.python.org/simple"
+
+
+[packages]
+
+algoliasearch = "*"
+
+
+[dev-packages]
+
+
+[requires]
+
+python_version = "3.5"

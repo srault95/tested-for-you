@@ -1,0 +1,20 @@
+{
+  "[python]": {
+    "editor.tabSize": 4
+  },
+  "python.unitTest.pyTestEnabled": false,
+  "python.workspaceSymbols.exclusionPatterns": [
+      "**/archives/**"
+    ],
+  "python.linting.ignorePatterns": [
+    ".vscode/*.py",
+    "**/archives/**/*.py"
+  ],
+  "python.autoComplete.extraPaths": ["${workspaceRoot}/pelican", "${workspaceRoot}/pelican/plugins"],
+  "python.envFile": "${workspaceRoot}/pelican/.env",
+  "python.venvPath": "${workspaceRoot}/pelican/.venv",
+  "python.pythonPath": "${workspaceRoot}/pelican/.venv/Scripts/python.exe",
+  "python.unitTest.promptToConfigure": false,
+  "python.unitTest.unittestEnabled": false,
+  "python.unitTest.nosetestsEnabled": false
+}

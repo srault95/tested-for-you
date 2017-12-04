@@ -1,0 +1,26 @@
+[[source]]
+
+name = "pypi"
+verify_ssl = true
+url = "https://pypi.python.org/simple"
+
+
+[packages]
+
+pelican = "*"
+markdown = "*"
+arrow = "*"
+typogrify = "*"
+"beautifulsoup4" = "*"
+algoliasearch = "*"
+pillow = "*"
+
+
+[dev-packages]
+
+httpie = "*"
+
+
+[requires]
+
+python_version = "3.5"
