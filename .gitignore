@@ -1,7 +1,6 @@
 .venv
 .env
 node_modules
-plugins
 
 # Local backups
 *~

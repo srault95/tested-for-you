@@ -27,6 +27,7 @@ PAGE_PATHS = ['pages']
 
 TAG_URL = 'tags/{slug}.html'
 TAG_SAVE_AS = TAG_URL
+#TAGS_SAVE_AS = 'tags.html'
 
 CATEGORY_URL = 'category/{slug}.html'
 CATEGORY_SAVE_AS = CATEGORY_URL
@@ -60,10 +61,12 @@ EXTRA_TEMPLATES_PATHS = [
     str(current.joinpath('templates')), #robot.txt
 ]
 
+#['index', 'categories', 'authors', 'archives']
 DIRECT_TEMPLATES = [
     'index',
-    'archives',
-    'search',
+    #'archives',
+    'tags'
+    #'search',
 ]
 
 TEMPLATE_PAGES = {
@@ -82,12 +85,17 @@ DEFAULT_DATE = list(arrow.now().timetuple())[:-3] #[2017, 12, 3, 9, 32, 28]
 # 24 Février 2017
 DEFAULT_DATE_FORMAT = '%d %B %Y'
 
+WITH_FUTURE_DATES = False
+
 # Ne pas descendre trop pour le ratio text/html
 DEFAULT_PAGINATION = 10
 
 SITENAME = "Tested For You"
 
-SITEURL = os.getenv('SITEURL', "https://tested-for-you.s2ltic.fr")
+REPOSITORY = "https://github.com/srault95/tested-for-you"
+
+#SITEURL = os.getenv('SITEURL', "https://tested-for-you.s2ltic.fr")
+SITEURL = "https://tested-for-you.surge.sh"
 
 SOCIAL_WIDGET_NAME = "Présence sur le net"
 
@@ -112,8 +120,8 @@ ARTICLE_EDIT_LINK = 'https://github.com/srault95/tested-for-you/edit/master/cont
 DISPLAY_PAGES_ON_MENU = True
 DISPLAY_CATEGORIES_ON_MENU = True
 
-DISPLAY_TAGS_ON_MENU = True
-DISPLAY_TAGS_ON_SIDEBAR = True
+DISPLAY_TAGS_ON_MENU = False
+DISPLAY_TAGS_ON_SIDEBAR = False
 
 # Archives
 DISPLAY_RECENT_POSTS_ON_MENU = True
@@ -129,8 +137,10 @@ DISPLAY_TAGS_INLINE = True
 #LINKS: A list of tuples (Title, URL) for menu links.
 #ICONS: A list of tuples (Icon, URL) for icon links.
 #PYGMENTS_STYLE: Built-in Pygments style for syntax highlighting.
-#HIDE_AUTHORS: Hide the author(s) of an article - useful for single author sites.
+HIDE_AUTHORS = True # Hide the author(s) of an article - useful for single author sites.
 #RFG_FAVICONS: Use a Favicon Generator package.
+
+HIDE_CATEGORIES = True
 
 LINKS = [
     #('Search', '/search.html')
@@ -167,10 +177,8 @@ TYPOGRIFY = True
 
 SUMMARY_MAX_LENGTH = 100
 
-WITH_FUTURE_DATES = False
-
 PLUGINS = [
-    'related_posts',
+    #'related_posts',
     'tag_cloud',
     'extract_toc',
     'sitemap',

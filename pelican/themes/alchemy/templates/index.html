@@ -1,53 +1,213 @@
 {% extends "base.html" %}
 
-{% block head %}
-{{ super() }}
-{% if DESCRIPTION %}
-<meta name="description" content="{{ DESCRIPTION|striptags }}">
-{% endif %}
-{% endblock %}
-
 {% block title %}
-{{ SITENAME }} | {{ SITESUBTITLE }}
+Recherche {{ super() }}
 {% endblock %}
 
 {% block page_header %}
-Articles
+<!--Recherche-->
+{% endblock %}
+
+{% block head %}
+{{super()}}
+<link rel="stylesheet" href="{{ SITEURL }}/theme/css/search.css" />
+<style>
+
+</style>
+{% endblock %}
+
+{% block javascript_libs %}
+{{super()}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/locale/fr.js"></script>
+<script src="https://unpkg.com/vue@2.5.9/dist/vue.min.js"></script>
+<script src="https://unpkg.com/vue-instantsearch@1.3.2/dist/vue-instantsearch.js"></script>
+
+<script type="text/x-template" id="main">
+    <ais-index
+        :app-id="ALGOLIA_APP_ID"
+        :api-key="ALGOLIA_SEARCH_API_KEY"
+        :index-name="ALGOLIA_INDEX_NAME"
+    >
+        <div class="row">
+            <div class="col-md-2 col-sm-3">
+                <!--
+                <h1 class="head-title">
+                    Filtres
+                </h1>
+                -->
+                <ais-tree-menu
+                    :attributes="['tags']"
+                    :sort-by="['count:desc']"
+                    :class-names="{
+                        'ais-tree-menu__list': 'list-unstyled',
+                        'ais-tree-menu__count': 'badge badge-secondary'
+                    }">
+                    <div slot="header">
+                        <ais-clear style="float: right;">
+                                <i class="fa fa-remove fa-fw"></i>
+                        </ais-clear>
+                        <h3 class="bg-light text-dark pl-0 border border-top-0 border-left-0 border-right-0 border-bottom-1 border-dark">Tags</h3>
+                    </div>
+                </ais-tree-menu>
+            </div>
+            <div class="col-md-10 col-sm-9">
+
+                <div class="row">
+                    <div class="col">
+                        <ais-search-box
+                            :autofocus="true"
+                            :class-names="{'ais-input': 'form-inline'}"
+                        >
+                            <div class="input-group input-group-lg">
+                                <ais-input
+                                    placeholder="Recherches..."
+                                    :class-names="{'ais-input': 'form-control form-control-lg'}"
+                                ></ais-input>
+
+                                <span class="input-group-btn">
+                                    <ais-clear :class-names="{'ais-clear': 'btn btn-default'}">
+                                        <span class="fa fa-remove" aria-hidden="true"></span>
+                                    </ais-clear>
+                                    <button class="btn btn-default" type="submit">
+                                        <span class="fa fa-search" aria-hidden="true"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </ais-search-box>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col">
+
+                        <div style="min-height: 25px;">
+                            <ais-stats
+                                :class-names="{'ais-stats': 'float-right d-none d-lg-block d-xl-block' }"
+                            />
+
+                            <span>Par Page :
+                                <ais-results-per-page-selector
+                                    :options="[10, 20, 50]"
+                                    :class-names="{'ais-results-per-page-selector': 'custom-select' }"
+                                />
+                            </span>
+
+                            <span class="ml-2">Tri Par :
+                                <ais-sort-by-selector
+                                    :indices="[
+                                        {
+                                            name: 'blog',
+                                            label: 'Le plus récent'
+                                        },
+                                        {
+                                            name: 'blog_created_asc',
+                                            label: 'Le plus ancien'
+                                        },
+                                        {
+                                            name: 'blog_title_asc',
+                                            label: 'Par titre'
+                                        }
+                                    ]"
+                                    :class-names="{'ais-sort-by-selector': 'custom-select' }"
+                                />
+                            </span>
+
+                        </div>
+
+                        <p>&nbsp;</p>
+
+                        {% raw %}
+                        <ais-results>
+                            <template slot-scope="{ result }">
+                                <!--
+                                <pre>
+                                {{result}}
+                                </pre>
+                                -->
+                                <div class="search-result">
+                                    <div class="result__info">
+                                        <h2 class="result__title">
+
+                                            <a :href="result.url">
+                                                <ais-highlight
+                                                    :result="result"
+                                                    attribute-name="title"
+                                                    :class-names="{'ais-highlight': 'text-uppercase' }"
+                                                />
+                                            </a>
+                                        </h2>
+                                        <div class="result__summary">
+                                            <h4>
+                                                <ais-highlight
+                                                    :result="result"
+                                                    attribute-name="summary"
+                                                />
+                                                <div class="mt-1">
+                                                <small v-if="result.created && !result.modified">
+                                                    {{moment(result.created*1000).format('LLL')}}
+                                                </small>
+                                                <small v-if="result.modified">
+                                                    {{moment(result.modified*1000).format('LLL')}}
+                                                </small>
+                                                </div>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </ais-results>
+                        {% endraw %}
+
+                        <ais-no-results></ais-no-results>
+
+                        <ais-pagination
+                            :padding="5"
+                            :class-names="{
+                                'ais-pagination': 'pagination',
+                                'ais-pagination__item': 'page-item',
+                                'ais-pagination__item--active': 'active',
+                                'ais-pagination__item--disabled': 'disabled',
+                                'ais-pagination__link': 'page-link bg-dark border-0'}"
+                        />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--
+
+        <div class="row">
+            <div class="col-md-2 col-sm-3">
+            </div>
+
+            <div class="col-md-10 col-sm-9">
+
+
+            </div>
+        </div>
+        -->
+
+    </ais-index>
+</script>
+
+<script>
+new Vue({
+  template: '#main',
+  data () {
+    return {
+      ALGOLIA_APP_ID: '{{ALGOLIA_APP_ID}}',
+      ALGOLIA_SEARCH_API_KEY: '{{ALGOLIA_SEARCH_API_KEY}}',
+      ALGOLIA_INDEX_NAME: '{{ALGOLIA_INDEX_NAME}}'
+    }
+  },
+  el: '#app'
+})
+</script>
+
 {% endblock %}
 
 {% block content %}
-{% for article in articles_page.object_list %}
-<article class="row teaser">
-  <header class="col-sm-4 text-muted">
-    <ul>
-      <li title="{{ article.date.isoformat() }}">
-        <i class="fa fa-clock-o"></i>
-        {{ article.locale_date }}
-      </li>
-      <li>
-        <i class="fa fa-folder-open-o"></i>
-        <a href="{{ SITEURL }}/{{ article.category.url }}">{{ article.category }}</a>
-      </li>
-      {% if not HIDE_AUTHORS and article.authors %}
-      <li>
-        <i class="fa fa-user-o"></i>
-        {% for author in article.authors %}
-        <a href="{{ SITEURL }}/{{ author.url }}">{{ author }}</a>{% if not loop.last %}, {% endif %}
-        {% endfor %}
-      </li>
-      {% endif %}
-    </ul>
-  </header>
-  <div class="col-sm-8">
-    <h4 class="title"><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h4>
-    <div class="content">
-      {{ article.summary|striptags }}
-    </div>
-  </div>
-</article>
-{% if not loop.last %}
-<hr>
-{% endif %}
-{% endfor %}
-{% include 'include/pagination.html' %}
+<div id="app" class="container-fluid xxx">
+</div>
 {% endblock %}

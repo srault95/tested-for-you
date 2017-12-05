@@ -1,3 +1,14 @@
+html {
+  font-family: "Roboto", sans-serif!important;
+  font-size: 62.5%!important;
+}
+
+body {
+  padding-top: 40px;
+  font-family: "Roboto", sans-serif!important;
+  font-size: 1.6rem!important;
+}
+
 ::selection {
   background: #0085a1;
   color: #fff;
@@ -124,4 +135,40 @@ hr {
   .teaser header li:not(:last-child) {
     margin-right: 10px;
   }
+}
+
+
+article ul {
+  padding-left: 1em;
+}
+
+article h2, h3 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+article h2 {
+  font-size: 1.3em; /* taille des h4 */
+}
+
+article h3 {
+  font-size: 1.2em; /* taille des h? */
+}
+
+article h2, h3 {
+  color: #fff!important;
+  background-color: #343a40!important;
+  padding: 5px 5px;
+}
+
+blockquote {
+  color: black;
+  border-left-width: medium;
+  border-left-color: red;
+  border-left-style: solid;
+  padding-left: 10px;
+}
+
+pre {
+    font-size: 0.9em;
 }

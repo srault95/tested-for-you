@@ -2,8 +2,8 @@
 Version: 1
 Lang: fr
 Title: MongoDB Server
-Tags: mongodb, nosql, db, backend, server
-Summary: Serveur NoSQL MongoDB, big-data, product, iot
+Tags: mongodb, nosql, db, backend, server, big-data, product, iot, storage
+Summary: Serveur NoSQL pour le Big Data
 Product_version: 3.5
 Product_url: https://www.mongodb.com
 ---
